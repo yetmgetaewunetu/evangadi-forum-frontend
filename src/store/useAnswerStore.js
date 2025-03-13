@@ -11,6 +11,7 @@ export const useAnswerStore = create((set, get) => ({
       const res = await axiosInstance.get(`/answers/answer/${qid}`);
       if (res) {
         set({ answers: res.data.data });
+        console.log(get().answers);
       }
     } catch (error) {
       toast.error(error.response.data.message);

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { useAnswerStore } from "../../../store/useAnswerStore";
+import { useAuthStore } from "../../../store/useAuthStore";
 
 export default function Answer(props) {
   const { answer } = props;
   const { user, getUserById, deleteAnswer } = useAnswerStore();
+  const { user: current_user } = useAuthStore();
+
   useEffect(() => {
     getUserById(answer.userId);
   }, [getUserById, answer.userId]);
@@ -19,14 +22,16 @@ export default function Answer(props) {
         </span>
       </div>
       <p className="text-lg flex-grow pl-5">{answer.answer}</p>
-      <button
-        onClick={() => {
-          deleteAnswer(answer._id);
-        }}
-        className="justify-self-end"
-      >
-        <MdDelete className="text-blue-500 size-5 md:size-9 transition-colors duration-300 hover:text-red-500 " />
-      </button>
+      {current_user._id === answer.userId && (
+        <button
+          onClick={() => {
+            deleteAnswer(answer._id);
+          }}
+          className="justify-self-end"
+        >
+          <MdDelete className="text-blue-500 size-5 md:size-9 transition-colors duration-300 hover:text-red-500 " />
+        </button>
+      )}
     </div>
   );
 }
