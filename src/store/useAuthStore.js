@@ -18,7 +18,7 @@ export const useAuthStore = create((set, get) => ({
       if (res) {
         toast.success("Registered successfully");
       }
-      set({ user: res.data.user });
+      set({ user: res.data });
     } catch (error) {
       toast.error(error.response.data.message);
     }
